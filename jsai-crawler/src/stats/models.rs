@@ -37,7 +37,7 @@ pub struct Session {
 
 impl Session {
     pub fn title_with_id(&self) -> String {
-        format!("[{}] {}", self.title, self.id)
+        format!("[{}] {}", self.id, self.title)
     }
 }
 
@@ -159,29 +159,18 @@ impl Stats {
         }
 
         // Keyword analysis: AIエージェント, AI Agent
-        let ai_agent_keywords = vec!["AIエージェント".into(), "AI Agent".into()];
+        let ai_agent_keywords = vec![
+            "AIエージェント".into(),
+            "AI Agent".into(),
+            "エージェント".into(),
+        ];
         self.keyword_analysis(
             &sessions,
             ai_agent_keywords,
             "AI Agent Sessions",
-            "Number of sessions that contains the keywords 'AIエージェント' or 'AI Agent'",
+            "Number of sessions that contains the keywords 'AIエージェント', 'AI Agent' or 'エージェント'",
             year,
         )?;
-
-        // Keyword analysis: 深層学習, ディープラーニング, Deep Learning
-        {
-            self.keyword_analysis(
-                &sessions,
-                vec![
-                    "深層学習".into(),
-                    "ディープラーニング".into(),
-                    "Deep Learning".into(),
-                ],
-                "Deep Learning Sessions",
-                "Number of sessions that contains the keywords '深層学習', 'ディープラーニング', or 'Deep Learning'",
-                year,
-            )?;
-        }
 
         // Save the stats to a JSON file
         let stats_file = output_dir.join(format!("jsai_{}_stats.json", year));
